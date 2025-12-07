@@ -3,82 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Cerdas Cermat</title>
+    <title>Kuis Cerdas Cermat - Pilih Role</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="container">
-        <header>
+<body class="landing-page">
+    <div class="landing-container">
+        <header class="landing-header">
             <h1>🎯 KUIS CERDAS CERMAT</h1>
-            <div class="game-status">
-                <span id="questionCount">Soal: 0/0</span>
-                <span id="roundInfo">Putaran Normal</span>
-            </div>
+            <p class="subtitle">Sistem Quiz Interaktif Real-time</p>
         </header>
 
-        <!-- Setup Panel -->
-        <div id="setupPanel" class="panel">
-            <h2>Setup Kelompok</h2>
-            <div class="setup-form">
-                <div class="form-group">
-                    <label>Jumlah Kelompok:</label>
-                    <input type="number" id="numGroups" min="2" max="6" value="3">
+        <div class="role-selection">
+            <h2>Pilih Role Anda</h2>
+
+            <div class="role-cards">
+                <!-- Host Card -->
+                <div class="role-card host-card">
+                    <div class="role-icon">🎮</div>
+                    <h3>Host / Guru</h3>
+                    <p>Kontrol permainan, tampilkan soal di proyektor, dan nilai jawaban peserta</p>
+                    <ul class="role-features">
+                        <li>✓ Buat game baru dengan PIN</li>
+                        <li>✓ Kontrol jalannya kuis</li>
+                        <li>✓ Nilai jawaban peserta</li>
+                        <li>✓ Tampilkan di proyektor</li>
+                    </ul>
+                    <a href="host.html" class="btn-role btn-host">Masuk sebagai Host</a>
                 </div>
-                <div id="groupNames"></div>
-                <button onclick="startGame()" class="btn-primary">Mulai Game</button>
+
+                <!-- Player Card -->
+                <div class="role-card player-card">
+                    <div class="role-icon">📱</div>
+                    <h3>Player / Siswa</h3>
+                    <p>Main kuis dari HP, join dengan PIN, tekan buzzer, dan jawab soal</p>
+                    <ul class="role-features">
+                        <li>✓ Join game dengan PIN</li>
+                        <li>✓ Tekan buzzer di HP</li>
+                        <li>✓ Jawab soal langsung</li>
+                        <li>✓ Lihat skor real-time</li>
+                    </ul>
+                    <a href="player.html" class="btn-role btn-player">Masuk sebagai Player</a>
+                </div>
+
+                <!-- Spectator Card -->
+                <div class="role-card spectator-card">
+                    <div class="role-icon">👀</div>
+                    <h3>Spectator / Penonton</h3>
+                    <p>Tonton pertandingan secara live tanpa ikut bermain</p>
+                    <ul class="role-features">
+                        <li>✓ Join dengan PIN</li>
+                        <li>✓ Lihat scoreboard live</li>
+                        <li>✓ Lihat soal & jawaban</li>
+                        <li>✓ Mode read-only</li>
+                    </ul>
+                    <a href="monitor.html" class="btn-role btn-spectator">Masuk sebagai Spectator</a>
+                </div>
+            </div>
+
+            <!-- Standalone Mode Link -->
+            <div class="standalone-link">
+                <p>Ingin main tanpa koneksi internet?</p>
+                <a href="index-standalone.html" class="btn-standalone">Mode Standalone (Offline)</a>
             </div>
         </div>
 
-        <!-- Game Panel -->
-        <div id="gamePanel" class="panel hidden">
-            <!-- Groups Display -->
-            <div class="groups-container" id="groupsContainer"></div>
-
-            <!-- Buzzer Section -->
-            <div class="buzzer-section">
-                <h3>REBUT SOAL!</h3>
-                <div id="buzzerButtons" class="buzzer-buttons"></div>
-                <div id="buzzerWinner" class="buzzer-winner hidden"></div>
-            </div>
-
-            <!-- Question Section -->
-            <div id="questionSection" class="question-section hidden">
-                <div class="question-card">
-                    <div class="question-header">
-                        <span id="questionType" class="question-type"></span>
-                        <span id="questionNumber" class="question-number"></span>
-                    </div>
-                    <h3 id="questionText"></h3>
-                    <div id="answerInput" class="answer-input">
-                        <input type="text" id="userAnswer" placeholder="Ketik jawaban...">
-                        <button onclick="submitAnswer()" class="btn-primary">Submit Jawaban</button>
-                    </div>
-                    <div id="correctAnswer" class="correct-answer hidden"></div>
-                </div>
-
-                <div class="action-buttons">
-                    <button onclick="markCorrect()" class="btn-success">✓ Benar</button>
-                    <button onclick="markWrong()" class="btn-danger">✗ Salah</button>
-                    <button onclick="nextQuestion()" class="btn-secondary">Soal Berikutnya</button>
-                </div>
-            </div>
-
-            <!-- Attack Mode Panel -->
-            <div id="attackPanel" class="attack-panel hidden">
-                <h3>🎯 MODE MENYERANG!</h3>
-                <p>Kelompok <strong id="attackerName"></strong> telah menjawab 3 soal beruntun!</p>
-                <p>Pilih kelompok untuk diserang:</p>
-                <div id="attackTargets" class="attack-targets"></div>
-            </div>
-
-            <!-- Control Panel -->
-            <div class="control-panel">
-                <button onclick="resetBuzzer()" class="btn-secondary">Reset Buzzer</button>
-                <button onclick="resetGame()" class="btn-danger">Reset Game</button>
-            </div>
-        </div>
+        <footer class="landing-footer">
+            <p>Cara Main:</p>
+            <ol>
+                <li><strong>Host</strong> buat game dan tampilkan PIN di proyektor</li>
+                <li><strong>Player</strong> join dari HP dengan memasukkan PIN</li>
+                <li><strong>Spectator</strong> bisa nonton live dengan PIN yang sama</li>
+            </ol>
+        </footer>
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>

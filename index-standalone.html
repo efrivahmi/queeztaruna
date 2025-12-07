@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Cerdas Cermat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 KUIS CERDAS CERMAT</h1>
+            <div class="game-status">
+                <span id="questionCount">Soal: 0/0</span>
+                <span id="roundInfo">Putaran Normal</span>
+            </div>
+        </header>
+
+        <!-- Setup Panel -->
+        <div id="setupPanel" class="panel">
+            <h2>Setup Kelompok</h2>
+            <div class="setup-form">
+                <div class="form-group">
+                    <label>Jumlah Kelompok:</label>
+                    <input type="number" id="numGroups" min="2" max="6" value="3">
+                </div>
+                <div id="groupNames"></div>
+                <button onclick="startGame()" class="btn-primary">Mulai Game</button>
+            </div>
+        </div>
+
+        <!-- Game Panel -->
+        <div id="gamePanel" class="panel hidden">
+            <!-- Groups Display -->
+            <div class="groups-container" id="groupsContainer"></div>
+
+            <!-- Buzzer Section -->
+            <div class="buzzer-section">
+                <h3>REBUT SOAL!</h3>
+                <div id="buzzerButtons" class="buzzer-buttons"></div>
+                <div id="buzzerWinner" class="buzzer-winner hidden"></div>
+            </div>
+
+            <!-- Question Section -->
+            <div id="questionSection" class="question-section hidden">
+                <div class="question-card">
+                    <div class="question-header">
+                        <span id="questionType" class="question-type"></span>
+                        <span id="questionNumber" class="question-number"></span>
+                    </div>
+                    <h3 id="questionText"></h3>
+                    <div id="answerInput" class="answer-input">
+                        <input type="text" id="userAnswer" placeholder="Ketik jawaban...">
+                        <button onclick="submitAnswer()" class="btn-primary">Submit Jawaban</button>
+                    </div>
+                    <div id="correctAnswer" class="correct-answer hidden"></div>
+                </div>
+
+                <div class="action-buttons">
+                    <button onclick="markCorrect()" class="btn-success">✓ Benar</button>
+                    <button onclick="markWrong()" class="btn-danger">✗ Salah</button>
+                    <button onclick="nextQuestion()" class="btn-secondary">Soal Berikutnya</button>
+                </div>
+            </div>
+
+            <!-- Attack Mode Panel -->
+            <div id="attackPanel" class="attack-panel hidden">
+                <h3>🎯 MODE MENYERANG!</h3>
+                <p>Kelompok <strong id="attackerName"></strong> telah menjawab 3 soal beruntun!</p>
+                <p>Pilih kelompok untuk diserang:</p>
+                <div id="attackTargets" class="attack-targets"></div>
+            </div>
+
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <button onclick="resetBuzzer()" class="btn-secondary">Reset Buzzer</button>
+                <button onclick="resetGame()" class="btn-danger">Reset Game</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

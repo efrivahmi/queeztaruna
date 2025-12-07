@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor - Kuis Cerdas Cermat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="monitor-page">
+    <div class="monitor-container">
+        <!-- Join Panel -->
+        <div id="joinPanel" class="panel">
+            <div class="monitor-header">
+                <h1>👀 SPECTATOR MODE</h1>
+                <p>Tonton pertandingan secara live</p>
+            </div>
+
+            <div class="join-form">
+                <div class="form-group">
+                    <label>PIN Game:</label>
+                    <input type="text" id="gamePIN" placeholder="Masukkan 6 digit PIN" maxlength="6" class="pin-input">
+                </div>
+
+                <button onclick="joinMonitor()" class="btn-primary btn-large">👁️ Mulai Nonton</button>
+
+                <div id="joinError" class="error-message hidden"></div>
+            </div>
+
+            <div class="back-link">
+                <a href="index.html">← Kembali</a>
+            </div>
+        </div>
+
+        <!-- Monitor Panel -->
+        <div id="monitorPanel" class="panel hidden">
+            <!-- Header -->
+            <div class="monitor-top-bar">
+                <div class="monitor-title">
+                    <h2>🎯 KUIS CERDAS CERMAT</h2>
+                    <span class="live-badge">🔴 LIVE</span>
+                </div>
+                <div class="monitor-info">
+                    <span>PIN: <strong id="monitorPIN"></strong></span>
+                    <span id="monitorQuestionCount">Soal: 0/30</span>
+                </div>
+            </div>
+
+            <!-- Scoreboard -->
+            <div class="monitor-scoreboard">
+                <h3>📊 SCOREBOARD</h3>
+                <div id="monitorScoreboard" class="scoreboard-display"></div>
+            </div>
+
+            <!-- Current Phase Display -->
+            <div class="monitor-phase">
+                <!-- Buzzer Phase -->
+                <div id="monitorBuzzerPhase" class="monitor-section hidden">
+                    <div class="phase-indicator">
+                        <h2>⚡ REBUT SOAL!</h2>
+                        <p class="phase-description">Peserta sedang menekan buzzer...</p>
+                    </div>
+                    <div class="buzzer-animation">
+                        <div class="pulse-circle"></div>
+                    </div>
+                </div>
+
+                <!-- Question Phase -->
+                <div id="monitorQuestionPhase" class="monitor-section hidden">
+                    <div class="current-player-banner">
+                        <h3>Giliran: <span id="monitorCurrentPlayer"></span></h3>
+                    </div>
+
+                    <div class="question-display-monitor">
+                        <div class="question-header-monitor">
+                            <span class="question-number-monitor" id="monitorQuestionNumber"></span>
+                            <span class="question-type-monitor" id="monitorQuestionType"></span>
+                        </div>
+                        <h2 id="monitorQuestionText" class="question-text-monitor"></h2>
+                    </div>
+
+                    <div class="answer-status-monitor">
+                        <div class="status-icon">⏳</div>
+                        <p>Menunggu jawaban dari peserta...</p>
+                    </div>
+                </div>
+
+                <!-- Attack Phase -->
+                <div id="monitorAttackPhase" class="monitor-section hidden">
+                    <div class="attack-banner">
+                        <h2>🎯 MODE SERANGAN!</h2>
+                        <p><strong id="monitorAttacker"></strong> sedang memilih target...</p>
+                    </div>
+                    <div class="attack-animation">
+                        <div class="attack-icon">⚔️</div>
+                    </div>
+                </div>
+
+                <!-- Result Phase -->
+                <div id="monitorResultPhase" class="monitor-section hidden">
+                    <div id="monitorResult" class="result-display-monitor"></div>
+                </div>
+
+                <!-- Game Over Phase -->
+                <div id="monitorGameOver" class="monitor-section hidden">
+                    <h2>🏆 GAME SELESAI!</h2>
+                    <div id="monitorFinalScoreboard" class="final-scoreboard-monitor"></div>
+                </div>
+            </div>
+
+            <!-- Activity Log -->
+            <div class="monitor-activity">
+                <h3>📝 Activity Log</h3>
+                <div id="activityLog" class="activity-log"></div>
+            </div>
+
+            <!-- Controls -->
+            <div class="monitor-controls">
+                <button onclick="toggleFullscreen()" class="btn-secondary">⛶ Fullscreen</button>
+                <button onclick="toggleSound()" class="btn-secondary" id="soundBtn">🔊 Sound</button>
+                <button onclick="location.href='index.html'" class="btn-danger">← Exit</button>
+            </div>
+        </div>
+
+        <!-- Disconnected Panel -->
+        <div id="disconnectedPanel" class="panel hidden">
+            <div class="error-content">
+                <h2>⚠️ Terputus</h2>
+                <p>Koneksi ke game terputus atau game telah berakhir.</p>
+                <button onclick="location.reload()" class="btn-primary">Coba Lagi</button>
+                <button onclick="location.href='index.html'" class="btn-secondary">Kembali ke Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="firebase-config.js"></script>
+    <script src="monitor.js"></script>
+</body>
+</html>

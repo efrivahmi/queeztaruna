@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host - Kuis Cerdas Cermat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="host-page">
+    <div class="container">
+        <!-- Setup Panel -->
+        <div id="setupPanel" class="panel">
+            <h1>🎮 Host Panel</h1>
+            <div class="setup-form">
+                <h2>Buat Game Baru</h2>
+                <div class="form-group">
+                    <label>Jumlah Kelompok:</label>
+                    <input type="number" id="numGroups" min="2" max="8" value="3">
+                </div>
+                <div id="groupNamesSetup"></div>
+                <button onclick="createGame()" class="btn-primary btn-large">Buat Game & Dapatkan PIN</button>
+            </div>
+        </div>
+
+        <!-- Waiting Room -->
+        <div id="waitingPanel" class="panel hidden">
+            <h1>🎯 Menunggu Peserta Join</h1>
+            <div class="pin-display">
+                <div class="pin-label">PIN GAME:</div>
+                <div class="pin-code" id="gamePIN">------</div>
+                <button onclick="copyPIN()" class="btn-secondary">📋 Copy PIN</button>
+            </div>
+
+            <div class="qr-section">
+                <p>Scan QR Code untuk join:</p>
+                <div id="qrCode" class="qr-code"></div>
+                <p class="player-url" id="playerURL"></p>
+            </div>
+
+            <div class="waiting-players">
+                <h3>Peserta yang Sudah Join (<span id="playerCount">0</span>):</h3>
+                <div id="playerList" class="player-list"></div>
+            </div>
+
+            <button onclick="startGame()" class="btn-success btn-large" id="startGameBtn" disabled>
+                Mulai Game (Minimum 2 kelompok)
+            </button>
+        </div>
+
+        <!-- Game Panel -->
+        <div id="gamePanel" class="panel hidden">
+            <!-- Game Header -->
+            <div class="game-header">
+                <div class="game-info">
+                    <span class="game-pin-small">PIN: <strong id="gamePINSmall"></strong></span>
+                    <span id="questionCount">Soal: 0/30</span>
+                    <span id="gamePhase">Fase: Buzzer</span>
+                </div>
+            </div>
+
+            <!-- Groups Display -->
+            <div class="groups-container" id="groupsContainer"></div>
+
+            <!-- Buzzer Phase -->
+            <div id="buzzerPhase" class="phase-panel">
+                <h2>⚡ REBUT SOAL!</h2>
+                <p class="instruction">Peserta menekan buzzer di HP mereka</p>
+                <div id="buzzerStatus" class="buzzer-status">
+                    <div class="waiting-animation">Menunggu buzzer...</div>
+                </div>
+                <button onclick="resetBuzzer()" class="btn-secondary">🔄 Reset Buzzer</button>
+            </div>
+
+            <!-- Question Phase -->
+            <div id="questionPhase" class="phase-panel hidden">
+                <div class="current-answerer">
+                    <h3>Giliran: <span id="currentPlayerName"></span></h3>
+                </div>
+
+                <div class="question-display">
+                    <div class="question-header">
+                        <span class="question-number" id="questionNumber">Soal #1</span>
+                        <span class="question-type" id="questionType">Normal</span>
+                    </div>
+                    <h2 id="questionText" class="question-text"></h2>
+                </div>
+
+                <div class="answer-section">
+                    <h3>Jawaban dari peserta:</h3>
+                    <div id="playerAnswer" class="player-answer-display">
+                        <div class="waiting-answer">Menunggu jawaban...</div>
+                    </div>
+                </div>
+
+                <div class="correct-answer-section">
+                    <button onclick="showCorrectAnswer()" class="btn-secondary">👁️ Lihat Jawaban Benar</button>
+                    <div id="correctAnswerDisplay" class="correct-answer-display hidden"></div>
+                </div>
+
+                <div class="grading-buttons">
+                    <button onclick="markCorrect()" class="btn-success btn-large">✓ BENAR (+10)</button>
+                    <button onclick="markWrong()" class="btn-danger btn-large">✗ SALAH (-5)</button>
+                </div>
+            </div>
+
+            <!-- Attack Phase -->
+            <div id="attackPhase" class="phase-panel attack-phase-panel hidden">
+                <h2>🎯 MODE SERANGAN!</h2>
+                <p><strong id="attackerNameDisplay"></strong> telah menjawab 3 soal beruntun!</p>
+                <p>Menunggu pemain memilih target...</p>
+                <div id="attackSelection" class="attack-targets"></div>
+            </div>
+
+            <!-- Control Panel -->
+            <div class="host-controls">
+                <button onclick="nextQuestion()" class="btn-primary" id="nextQuestionBtn">
+                    ▶️ Soal Berikutnya
+                </button>
+                <button onclick="endGame()" class="btn-danger">
+                    ⏹️ Akhiri Game
+                </button>
+            </div>
+        </div>
+
+        <!-- End Game Panel -->
+        <div id="endPanel" class="panel hidden">
+            <h1>🏆 GAME SELESAI!</h1>
+            <div id="finalScoreboard" class="final-scoreboard"></div>
+            <div class="end-actions">
+                <button onclick="location.reload()" class="btn-primary btn-large">Buat Game Baru</button>
+                <button onclick="location.href='index.html'" class="btn-secondary">Kembali ke Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+    <!-- App Scripts -->
+    <script src="firebase-config.js"></script>
+    <script src="questions.js"></script>
+    <script src="host.js"></script>
+</body>
+</html>

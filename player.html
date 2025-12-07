@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player - Kuis Cerdas Cermat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="player-page">
+    <div class="player-container">
+        <!-- Join Panel -->
+        <div id="joinPanel" class="panel">
+            <div class="player-header">
+                <h1>📱 JOIN GAME</h1>
+            </div>
+
+            <div class="join-form">
+                <div class="form-group">
+                    <label>PIN Game:</label>
+                    <input type="text" id="gamePIN" placeholder="Masukkan 6 digit PIN" maxlength="6" class="pin-input">
+                </div>
+
+                <div class="form-group">
+                    <label>Nama Kelompok:</label>
+                    <input type="text" id="groupName" placeholder="Contoh: Kelompok Merah" class="group-input">
+                </div>
+
+                <button onclick="joinGame()" class="btn-primary btn-large">🚀 Join Game</button>
+
+                <div id="joinError" class="error-message hidden"></div>
+            </div>
+
+            <div class="back-link">
+                <a href="index.html">← Kembali</a>
+            </div>
+        </div>
+
+        <!-- Waiting Panel -->
+        <div id="waitingPanel" class="panel hidden">
+            <div class="player-header">
+                <h1>⏳ MENUNGGU</h1>
+            </div>
+
+            <div class="waiting-content">
+                <div class="success-join">
+                    <div class="checkmark">✓</div>
+                    <h2>Berhasil Join!</h2>
+                    <p>Nama Kelompok: <strong id="yourGroupName"></strong></p>
+                    <p>PIN: <strong id="yourPIN"></strong></p>
+                </div>
+
+                <div class="waiting-animation">
+                    <div class="loader"></div>
+                    <p>Menunggu host memulai game...</p>
+                </div>
+
+                <div class="other-players">
+                    <h3>Kelompok Lain yang Sudah Join:</h3>
+                    <div id="otherPlayersList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Panel -->
+        <div id="gamePanel" class="panel hidden">
+            <!-- Player Info Bar -->
+            <div class="player-info-bar">
+                <div class="player-name" id="playerNameDisplay"></div>
+                <div class="player-score">
+                    <span class="score-label">Skor:</span>
+                    <span class="score-value" id="playerScore">0</span>
+                </div>
+            </div>
+
+            <!-- Buzzer Phase -->
+            <div id="buzzerPhase" class="player-phase hidden">
+                <div class="phase-content">
+                    <h2>⚡ REBUT SOAL!</h2>
+                    <p class="instruction">Tekan buzzer untuk mendapat kesempatan menjawab</p>
+
+                    <button id="buzzerButton" onclick="pressBuzzer()" class="buzzer-button">
+                        <div class="buzzer-circle">
+                            <div class="buzzer-text">BUZZER!</div>
+                        </div>
+                    </button>
+
+                    <div id="buzzerFeedback" class="buzzer-feedback hidden"></div>
+                </div>
+            </div>
+
+            <!-- Waiting Phase (Other Player's Turn) -->
+            <div id="waitingPhase" class="player-phase hidden">
+                <div class="phase-content">
+                    <h2>⏳ Menunggu...</h2>
+                    <p class="turn-info">Giliran: <strong id="currentTurnPlayer"></strong></p>
+
+                    <div class="current-question-display">
+                        <div class="question-number-small" id="questionNumberSmall"></div>
+                        <div class="question-text-small" id="questionTextSmall"></div>
+                    </div>
+
+                    <div class="scoreboard-mini">
+                        <h3>Skor Sementara:</h3>
+                        <div id="scoreboardMini"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Answer Phase (Your Turn) -->
+            <div id="answerPhase" class="player-phase hidden">
+                <div class="phase-content">
+                    <div class="your-turn-banner">
+                        <h2>🎯 GILIRAN ANDA!</h2>
+                    </div>
+
+                    <div class="question-display-player">
+                        <div class="question-header-player">
+                            <span class="question-number-player" id="questionNumberPlayer"></span>
+                            <span class="question-type-player" id="questionTypePlayer"></span>
+                        </div>
+                        <h3 id="questionTextPlayer" class="question-text-player"></h3>
+                    </div>
+
+                    <div class="answer-input-section">
+                        <label>Jawaban Anda:</label>
+                        <input type="text" id="answerInput" placeholder="Ketik jawaban..." class="answer-input-player">
+                        <button onclick="submitAnswer()" class="btn-success btn-large" id="submitBtn">
+                            📤 KIRIM JAWABAN
+                        </button>
+                    </div>
+
+                    <div id="answerFeedback" class="answer-feedback hidden"></div>
+                </div>
+            </div>
+
+            <!-- Attack Phase -->
+            <div id="attackPhase" class="player-phase hidden">
+                <div class="phase-content">
+                    <h2>🎯 MODE SERANGAN!</h2>
+                    <p class="attack-congrats">Selamat! Anda telah menjawab 3 soal beruntun!</p>
+                    <p class="attack-instruction">Pilih kelompok yang ingin Anda serang:</p>
+
+                    <div id="attackTargetsList" class="attack-targets-list"></div>
+                </div>
+            </div>
+
+            <!-- Result Phase -->
+            <div id="resultPhase" class="player-phase hidden">
+                <div class="phase-content">
+                    <div id="resultDisplay" class="result-display"></div>
+
+                    <div class="scoreboard-mini">
+                        <h3>Skor Terkini:</h3>
+                        <div id="scoreboardResult"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Over -->
+            <div id="gameOverPhase" class="player-phase hidden">
+                <div class="phase-content">
+                    <h2>🏆 GAME SELESAI!</h2>
+                    <div id="finalResult"></div>
+                    <button onclick="location.href='index.html'" class="btn-primary btn-large">
+                        Kembali ke Home
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disconnected Panel -->
+        <div id="disconnectedPanel" class="panel hidden">
+            <div class="error-content">
+                <h2>⚠️ Terputus</h2>
+                <p>Koneksi ke game terputus atau game telah berakhir.</p>
+                <button onclick="location.reload()" class="btn-primary">Coba Lagi</button>
+                <button onclick="location.href='index.html'" class="btn-secondary">Kembali ke Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="firebase-config.js"></script>
+    <script src="player.js"></script>
+</body>
+</html>
