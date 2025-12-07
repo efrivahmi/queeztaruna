@@ -1,0 +1,12 @@
+{
+  "name": "queeztaruna",
+  "version": "1.0.0",
+  "description": "Sistem Kuis Cerdas Cermat",
+  "scripts": {
+    "start": "serve .",
+    "dev": "serve ."
+  },
+  "keywords": ["quiz", "game", "education"],
+  "author": "",
+  "license": "MIT"
+}
